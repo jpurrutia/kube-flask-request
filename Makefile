@@ -32,6 +32,6 @@ create-ip:
 	minikube service
 
 minikube-invoke:
-	curl http://192.168.59.102:32000//change/1/340
+	curl http://127.0.0.1:8080/schedule/2023-08-11
 
 all: install lint test

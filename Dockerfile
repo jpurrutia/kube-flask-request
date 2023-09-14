@@ -1,17 +1,23 @@
 FROM python:3.11.4-slim-bullseye
 
 # Working Directory
-WORKDIR /app
+WORKDIR . app.py /app/
+LABEL maintainer="JP Urrutia"
+LABEL description="Python Flask API"
 
+RUN mkdir -p /k8s-pydemo
+
+WORKDIR /k8s-pydemo/src
 # Copy source code to working directory
-COPY . app.py /app/
+COPY requirements.txt /k8s-pydemo/src/ \
+     && . app.py /k8s-pydemo/app/
 
 # Install packages from requirements.txt
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
+ENV APP_ENV development
+
 EXPOSE 8080
 
-ENTRYPOINT [ "python" ]
-
-CMD [ "app.py" ]
+CMD ["python", "app.py"]
