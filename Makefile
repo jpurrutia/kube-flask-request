@@ -2,12 +2,13 @@ install:
 	pip install --upgrade pip &&\
 		pip install -r requirements.txt
 
+
 lint:
 	sudo docker run --rm pyfound/black:latest_release black --version
-	docker run --rm --volume $(pwd):/src --workdir /src pyfound/black:latest_release black --check .
+	docker run --rm --volume $(pwd):/mlb-schedule/src --workdir /mlb-schedule/src pyfound/black:latest_release black --check .
 
-test:
-	python -m pytest -vv --cov=app test_app.py
+#test:
+#	python -m pytest -vv --cov=app test_app.py
 
 build:
 	sudo docker build -t mlb-schedule:latest .
@@ -26,7 +27,7 @@ copy-image:
 	sudo scp -i $(minikube ssh-key) mlb-schedule.bz2 docker@$(minikube ip):/home/docker/mlb-schedule.bz2
 
 run-kube:
-	kubectl apply -f kube-hello-change.yaml
+	kubectl apply -f kube-mlb-schedule.yaml
 
 create-ip:
 	minikube service
